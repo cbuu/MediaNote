@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".fragment.CameraFragment">
+
+    <LinearLayout
+        android:id="@+id/view_container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <SurfaceView
+            android:id="@+id/surface_view"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="300dp" />
+
+        <view class="com.tencent.medianote.fragment.CameraFragment$AutoFitTextureView"
+            android:id="@+id/texture_view"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="300dp" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_below="@id/view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="capture"/>
+
+    </FrameLayout>
+
+
+
+</RelativeLayout>
