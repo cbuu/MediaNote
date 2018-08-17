@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import com.tencent.medianote.fragment.CameraFragment;
 import com.tencent.medianote.fragment.ImageDrawingFragment;
 import com.tencent.medianote.fragment.MenuFragment;
+
+import java.util.Map;
 
 public class MainActivity extends FragmentActivity implements MenuFragment.OnMenuFragmentListener{
 
@@ -52,7 +55,8 @@ public class MainActivity extends FragmentActivity implements MenuFragment.OnMen
                 Manifest.permission.CAMERA,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO
         };
         return addPermission(context, voipPermissions);
     }
@@ -90,14 +94,14 @@ public class MainActivity extends FragmentActivity implements MenuFragment.OnMen
     public native String stringFromJNI();
 
     @Override
-    public void onMenuClick(String menu) {
-        switch (menu){
-            case "图像处理":
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, ImageDrawingFragment.newInstance(),"image").addToBackStack("").commitAllowingStateLoss();
-                break;
-            case "视频处理":
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, CameraFragment.newInstance(),"camera").addToBackStack("").commitAllowingStateLoss();
-                break;
+    public void onMenuClick(String menu,Class c) {
+        try {
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
+                    (Fragment) c.newInstance(),null).addToBackStack(null).commitAllowingStateLoss();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 }

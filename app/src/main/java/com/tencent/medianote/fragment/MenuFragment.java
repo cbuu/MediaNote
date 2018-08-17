@@ -3,6 +3,7 @@ package com.tencent.medianote.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,9 @@ import android.widget.TextView;
 import com.tencent.medianote.R;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +39,7 @@ public class MenuFragment extends Fragment {
 
     private List<String> menuList;
     private MenuAdapter adapter;
+    private Map<String,Class> fragmentMap;
 
     public MenuFragment() {
     }
@@ -56,10 +60,15 @@ public class MenuFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         menuList = new ArrayList<>();
+        fragmentMap = new LinkedHashMap<>();
 
         menuList.add("图像处理");
         menuList.add("音频处理");
         menuList.add("视频处理");
+
+        fragmentMap.put("图像处理",ImageDrawingFragment.class);
+        fragmentMap.put("音频处理",AudioFragment.class);
+        fragmentMap.put("视频处理",CameraFragment.class);
     }
 
     @Override
@@ -76,7 +85,7 @@ public class MenuFragment extends Fragment {
 
                 Log.d(TAG,"click = " + menu);
 
-                mListener.onMenuClick(menu);
+                mListener.onMenuClick(menu,fragmentMap.get(menu));
             }
         });
         adapter = new MenuAdapter();
@@ -112,8 +121,7 @@ public class MenuFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnMenuFragmentListener {
-        // TODO: Update argument type and name
-        void onMenuClick(String menu);
+        void onMenuClick(String menu,Class c);
     }
 
     protected class MenuAdapter extends BaseAdapter{

@@ -21,34 +21,16 @@ import android.view.ViewGroup;
 
 import com.tencent.medianote.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ImageDrawingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ImageDrawingFragment extends Fragment {
+public class ImageDrawingFragment extends BaseFragment {
 
-
-
-    public ImageDrawingFragment() {
-        // Required empty public constructor
-    }
-
-    public static ImageDrawingFragment newInstance() {
-        ImageDrawingFragment fragment = new ImageDrawingFragment();
-        return fragment;
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_image_drawing;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    protected void contructView(View view) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_image_drawing, container, false);
     }
 
 

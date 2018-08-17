@@ -1,11 +1,9 @@
 package com.tencent.medianote.fragment;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
@@ -18,7 +16,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
-import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
@@ -31,18 +28,14 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
-import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.tencent.medianote.R;
@@ -59,12 +52,27 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CameraFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CameraFragment extends Fragment {
+
+public class CameraFragment extends BaseFragment {
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_camera;
+    }
+
+    @Override
+    protected void contructView(View view) {
+        surfaceView = view.findViewById(R.id.surface_view);
+        textureView = view.findViewById(R.id.texture_view);
+
+
+        view.findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                capture();
+            }
+        });
+    }
 
     private static final String TAG = CameraFragment.class.getSimpleName();
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -321,24 +329,10 @@ public class CameraFragment extends Fragment {
         }
     }
 
-    public CameraFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-    }
-
-    public static CameraFragment newInstance() {
-        CameraFragment fragment = new CameraFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -346,24 +340,6 @@ public class CameraFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mFile = new File(Environment.getExternalStorageDirectory()+"/capture.jpg");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera, container, false);
-        surfaceView = view.findViewById(R.id.surface_view);
-        textureView = view.findViewById(R.id.texture_view);
-
-
-        view.findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                capture();
-            }
-        });
-
-        return view;
     }
 
     @Override
@@ -774,6 +750,8 @@ public class CameraFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+
 
 
     /**
