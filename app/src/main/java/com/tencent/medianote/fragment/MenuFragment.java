@@ -65,10 +65,12 @@ public class MenuFragment extends Fragment {
         menuList.add("图像处理");
         menuList.add("音频处理");
         menuList.add("视频处理");
+        menuList.add("音视频处理");
 
         fragmentMap.put("图像处理",ImageDrawingFragment.class);
         fragmentMap.put("音频处理",AudioFragment.class);
         fragmentMap.put("视频处理",CameraFragment.class);
+        fragmentMap.put("音视频处理",MediaFragment.class);
     }
 
     @Override
